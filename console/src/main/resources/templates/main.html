@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--360浏览器优先以webkit内核解析-->
+    <title>仓储管理系统介绍</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/animate.min.css" th:href="@{/css/main/animate.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/style.min862f.css" th:href="@{/css/main/style.min862f.css}" rel="stylesheet"/>
+    <style>
+        .h100{
+          height: 100%;
+        }
+        .tubiao{
+            height: 100px;
+            width: 100px;
+        }
+        .divdd{
+            width: 130px;margin: 0px auto;display: inline-table;
+            padding-right: 65px;
+        }
+        table tr th{
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="gray-bg h100" >
+    <div class="row h100"  style="width: 80%;margin: 0px auto;">
+        <div style="text-align: center;margin-top: 50px;">
+
+            <div  class="divdd" >
+                <div style="background: url('/img/ruku.jpg');background-size: 100% 100%;" class="tubiao"></div>
+                <div style="font-weight: bold;font-size: 18px;">入库</div>
+            </div>
+            <div  class="divdd" >
+                <div style="background: url('/img/chuku.jpg');background-size: 100% 100%;" class="tubiao"></div>
+                <div style="font-weight: bold;font-size: 18px;">出库</div>
+            </div>
+            <div  class="divdd" >
+                <div style="background: url('/img/yiku.jpg');background-size: 100% 100%;" class="tubiao"></div>
+                <div style="font-weight: bold;font-size: 18px;">移库</div>
+            </div>
+
+            <div  class="divdd" >
+                <div style="background: url('/img/pandian.jpg');background-size: 100% 100%;" class="tubiao"></div>
+                <div style="font-weight: bold;font-size: 18px;">盘点</div>
+            </div>
+
+            <div  class="divdd" >
+                <div style="background: url('/img/huoquanzhuanyi.jpg');background-size: 100% 100%;" class="tubiao"></div>
+                <div style="font-weight: bold;font-size: 18px;">货权转移</div>
+            </div>
+
+            <!--<div  class="divdd" >
+                <div style="background: url('/img/jiankong.jpg');background-size: 100% 100%;" class="tubiao"></div>
+                <div style="font-weight: bold;font-size: 18px;">监控</div>
+            </div>-->
+            <div  class="divdd" >
+                <div style="background: url('/img/chuweizhanshi.jpg');background-size: 100% 100%;" class="tubiao"></div>
+                <div style="font-weight: bold;font-size: 18px;">储位展示</div>
+            </div>
+
+            <div  class="divdd" >
+                <div style="background: url('/img/shangpin.jpg');background-size: 100% 100%;" class="tubiao"></div>
+                <div style="font-weight: bold;font-size: 18px;">商品</div>
+            </div>
+            <div  class="divdd" >
+                <div style="background: url('/img/chubeijihua.jpg');background-size: 100% 100%;" class="tubiao"></div>
+                <div style="font-weight: bold;font-size: 18px;">储备计划</div>
+            </div>
+
+
+
+        </div>
+
+        <div style="height: 80%;">
+            <div style="height: 50px;border: 0px solid red;line-height: 50px;padding-top: 50px;">
+                <div style="width: 49%;float: left;font-size: 25px;font-weight: bold;text-align: left;">
+                    任务列表
+                </div>
+                <div style="width: 49%;float: right;font-size: 15px;font-weight: bold;text-align: right;">
+                    查看更多>>
+                </div>
+            </div>
+            <div style="width: 100%;text-align: center;">
+                <div style="margin: 0px auto;">
+                    <table id="dataTables-userInfo" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th width="5%">序号</th>
+                            <th width="10%">仓库</th>
+                            <th width="10%">业务</th>
+                            <th width="8%">业务状态</th>
+                            <th width="10%">储位</th>
+                            <th width="10%">货主</th>
+                            <th width="10%">操作员</th>
+                            <th width="10%">创建时间</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+</body>
+</html>

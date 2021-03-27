@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.github.fashionbrot.core.mapper.SysMenuMapper">
+
+
+    <resultMap type="com.github.fashionbrot.core.entity.SysMenuEntity" id="sysMenuMap">
+            <result property="id" column="id"/>
+            <result property="menuName" column="menu_name"/>
+            <result property="menuLevel" column="menu_level"/>
+            <result property="menuUrl" column="menu_url"/>
+            <result property="parentMenuId" column="parent_menu_id"/>
+            <result property="priority" column="priority"/>
+            <result property="code" column="code"/>
+            <result property="target" column="target"/>
+            <result property="visible" column="visible"/>
+            <result property="isRefresh" column="is_refresh"/>
+            <result property="icon" column="icon"/>
+            <result property="createId" column="create_id"/>
+            <result property="createDate" column="create_date"/>
+            <result property="updateId" column="update_id"/>
+            <result property="updateDate" column="update_date"/>
+            <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+    <resultMap type="com.github.fashionbrot.core.dto.SysMenuDTO" id="sysMenuDtoMap">
+            <result property="id" column="id"/>
+            <result property="menuName" column="menu_name"/>
+            <result property="menuLevel" column="menu_level"/>
+            <result property="menuUrl" column="menu_url"/>
+            <result property="parentMenuId" column="parent_menu_id"/>
+            <result property="priority" column="priority"/>
+            <result property="code" column="code"/>
+            <result property="target" column="target"/>
+            <result property="visible" column="visible"/>
+            <result property="isRefresh" column="is_refresh"/>
+            <result property="icon" column="icon"/>
+            <result property="createId" column="create_id"/>
+            <result property="createDate" column="create_date"/>
+            <result property="updateId" column="update_id"/>
+            <result property="updateDate" column="update_date"/>
+            <result property="delFlag" column="del_flag"/>
+    </resultMap>
+    <sql id="allSql">
+        id,menu_name,menu_level,menu_url,parent_menu_id,priority,code,target,visible,is_refresh,icon,create_id,create_date,update_id,update_date,del_flag
+    </sql>
+
+    
+
+</mapper>
