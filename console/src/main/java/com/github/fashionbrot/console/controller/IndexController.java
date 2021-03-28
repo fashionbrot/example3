@@ -1,7 +1,11 @@
 package com.github.fashionbrot.console.controller;
 
 
+import com.github.fashionbrot.common.model.LoginModel;
 import com.github.fashionbrot.common.util.CookieUtil;
+import com.github.fashionbrot.core.entity.SysMenuEntity;
+import com.github.fashionbrot.core.service.SysMenuService;
+import com.github.fashionbrot.core.service.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author fashionbrot
@@ -20,27 +25,27 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class IndexController {
 
-    /*@Autowired
+    @Autowired
     private UserLoginService userLoginService;
 
     @Autowired
-    private MenuService menuService;
-*/
+    private SysMenuService menuService;
+
     @Autowired
     private Environment environment;
 
-    /*@GetMapping("/index")
+    @GetMapping("/index")
     public String index(ModelMap mmap,String view){
         LoginModel loginModel = userLoginService.getLogin();
         // 根据用户id取出菜单
-        List<Menu> menus = menuService.loadAllMenu2(loginModel.getRoleId(),loginModel.isSuperAdmin());
+        List<SysMenuEntity> menus = menuService.loadRoleMenu(loginModel.getRoleId(),loginModel.isSuperAdmin());
         mmap.put("menus", menus);
         mmap.put("user", loginModel);
         if ("top".equals(view) || "true".equals(environment.getProperty("menu.top"))){
             return "index-topnav";
         }
         return "index-topnav";
-    }*/
+    }
 
     @GetMapping(value = {"/","/login"})
     public String login() {

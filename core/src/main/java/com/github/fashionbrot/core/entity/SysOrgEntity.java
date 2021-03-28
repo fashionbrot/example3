@@ -20,7 +20,6 @@ import java.util.Date;
  */
 @ApiModel(value = "机构表")
 @Data
-@EqualsAndHashCode(callSuper=false)
 @TableName("sys_org")
 public class SysOrgEntity implements Serializable {
 

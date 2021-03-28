@@ -20,8 +20,7 @@ import org.springframework.web.method.HandlerMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 菜单表
@@ -34,8 +33,6 @@ import java.util.Map;
 @Service
 public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenuEntity> implements SysMenuService {
 
-    @Autowired
-    private SysMenuMapper sysMenuMapper;
 
     @Autowired
     private HttpServletRequest request;
@@ -46,10 +43,10 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenuEn
         Map<String,Object> map = ConvertUtil.toMap(req);
         List<SysMenuEntity> listByMap = baseMapper.selectByMap(map);
 
-        return RespVo.success(PageVo.builder()
+        return PageVo.builder()
                 .rows(listByMap)
                 .total(page.getTotal())
-                .build());
+                .build();
     }
 
     @Override
@@ -63,30 +60,110 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenuEn
 
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Method method = handlerMethod.getMethod();
-
+            String permission = "";
+            MarsPermission classAnnotation = method.getDeclaringClass().getAnnotation(MarsPermission.class);
+            if (classAnnotation!=null){
+                permission = classAnnotation.value();
+            }
             // 判断接口是否需要登录
             MarsPermission methodAnnotation = method.getAnnotation(MarsPermission.class);
             if (methodAnnotation != null  ) {
-                List<SysMenuEntity> menuBarList = getMenus(model);
-                if (CollectionUtils.isNotEmpty(menuBarList)) {
-                    for (SysMenuEntity m : menuBarList) {
-                        //验证菜单是否有权限
-                        if ( (m.getMenuLevel() == 2 || m.getMenuLevel() == 3) && m.getCode().equals(methodAnnotation.value())) {
-                            return true;
-                        }
-                    }
-                }
-                return false;
+                permission = permission+ methodAnnotation.value();
             }
-            return true;
+
+            return checkPermission(permission,model.getRoleId());
         }
 
         return false;
 
     }
 
-    private List<SysMenuEntity> getMenus(LoginModel model) {
-        return baseMapper.selectList(null);
+    public boolean checkPermission(String permission,Long roleId){
+        QueryWrapper<SysMenuEntity> q = new QueryWrapper<>();
+        q.select("count(1)");
+        q.last(" inner join sys_menu_role_relation b on b.menu_id = menu_id" +
+                "where b.role_id = "+roleId+"  ");
+        Integer count = baseMapper.selectCount(q);
+        if (count>0){
+            return true;
+        }
+        return false;
     }
 
+    @Override
+    public List<SysMenuEntity> loadRoleMenu(Long roleId, boolean superAdmin) {
+        List<SysMenuEntity> list = null;
+        if (superAdmin){
+            list = baseMapper.selectList(new QueryWrapper<SysMenuEntity>().in("menu_level",Arrays.asList(1,2)));
+        }else{
+            list =  baseMapper.loadRoleMenu(roleId);
+        }
+
+        Map<String, Boolean> checkedMap = new HashMap<>();
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (SysMenuEntity mm : list) {
+                checkedMap.put(mm.getId().toString(), true);
+            }
+        }
+        if (CollectionUtils.isNotEmpty(list)) {
+            list = loadChildMenu(list, checkedMap);
+        }
+        return list;
+    }
+
+    private List<SysMenuEntity> loadChildMenu(List<SysMenuEntity> menuBarList, Map<String, Boolean> checkedMap) {
+        if (CollectionUtils.isNotEmpty(menuBarList)) {
+            List<SysMenuEntity> menuList = new ArrayList<>(15);
+            for (SysMenuEntity m : menuBarList) {
+                if (m.getMenuLevel() != 1) {
+                    continue;
+                }
+                m.setChildMenu(loadChildMenu(menuBarList, m, checkedMap));
+                menuList.add(m);
+            }
+            return menuList;
+        }
+        return null;
+    }
+
+    private List<SysMenuEntity> loadChildMenu(List<SysMenuEntity> menuBarList, SysMenuEntity parentMenu, Map<String, Boolean> checkedMap) {
+        if (CollectionUtils.isNotEmpty(menuBarList)) {
+            List<SysMenuEntity> menuList = new ArrayList<>(10);
+            for (SysMenuEntity m : menuBarList) {
+                if (Objects.equals(m.getParentMenuId(), parentMenu.getId())) {
+                    menuList.add(m);
+                }
+            }
+            return menuList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<SysMenuEntity> queryListAll() {
+        QueryWrapper<SysMenuEntity> queryWrapper=new QueryWrapper();
+        queryWrapper.orderByAsc("priority ");
+        List<SysMenuEntity> menuBarList = baseMapper.selectList(queryWrapper);
+        if (CollectionUtils.isNotEmpty(menuBarList)) {
+            for (SysMenuEntity m : menuBarList) {
+                if (m.getMenuLevel() != 1) {
+                    m.setParentMenuName(parentMenuName(menuBarList, m.getParentMenuId()));
+                }
+            }
+        }
+
+        return menuBarList;
+    }
+    private String parentMenuName(List<SysMenuEntity> menuBarList, Long parentMenuId) {
+        if (CollectionUtils.isNotEmpty(menuBarList)) {
+            for (SysMenuEntity m : menuBarList) {
+                if (m.getMenuLevel() == 1 && Objects.equals(m.getId(), parentMenuId)) {
+                    return m.getMenuName();
+                }else if (m.getMenuLevel() == 2 && Objects.equals(m.getId(), parentMenuId)) {
+                    return m.getMenuName();
+                }
+            }
+        }
+        return "";
+    }
 }

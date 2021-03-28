@@ -35,10 +35,10 @@ public class SysLogServiceImpl extends BaseServiceImpl<SysLogMapper, SysLogEntit
         Map<String,Object> map = ConvertUtil.toMap(req);
         List<SysLogEntity> listByMap = baseMapper.selectByMap(map);
 
-        return RespVo.success(PageVo.builder()
+        return PageVo.builder()
                 .rows(listByMap)
                 .total(page.getTotal())
-                .build());
+                .build();
     }
 
 }

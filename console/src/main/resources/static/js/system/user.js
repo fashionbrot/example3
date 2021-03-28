@@ -1,6 +1,6 @@
 var editFlag;
 var removeFlag;
-var prefix = ctx + "system/user/";
+var prefix = ctx + "sys/user/";
 $(function () {
 
     queryList();
@@ -8,7 +8,7 @@ $(function () {
 
 function queryList() {
     var options = {
-        url: prefix + "/queryAll",
+        url: prefix + "/page",
         createUrl: prefix + "/index/add",
         updateUrl: prefix + "/index/edit/?id={id}",
         removeUrl: prefix + "/deleteById",

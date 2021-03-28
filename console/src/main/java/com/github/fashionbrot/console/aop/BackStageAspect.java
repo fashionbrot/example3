@@ -8,6 +8,7 @@ import com.github.fashionbrot.common.util.IpUtil;
 import com.github.fashionbrot.core.entity.SysLogEntity;
 import com.github.fashionbrot.core.service.SysLogService;
 import com.github.fashionbrot.core.service.SysUserService;
+import com.github.fashionbrot.core.service.UserLoginService;
 import com.github.fashionbrot.validated.exception.ValidatedException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -54,7 +55,7 @@ public class BackStageAspect implements DisposableBean {
     @Autowired
     private SysLogService sysLogService;
     @Autowired
-    private SysUserService sysUserService;
+    private UserLoginService userLoginService;
 
     private static final int pollSize= Runtime.getRuntime().availableProcessors();
 
@@ -121,7 +122,7 @@ public class BackStageAspect implements DisposableBean {
             }
         }
         if (targetMethod != null) {
-            LoginModel login = sysUserService.getSafeLogin();
+            LoginModel login = userLoginService.getSafeLogin();
             if (login!=null){
                 userId = login.getUserId();
             }

@@ -22,7 +22,7 @@ function login() {
     var rememberMe = $("input[name='rememberme']").is(':checked');
     $.ajax({
         type: "post",
-        url: ctx + "system/user/doLogin",
+        url: ctx + "sys/user/doLogin",
         data: {
             "username": username,
             "password": password,

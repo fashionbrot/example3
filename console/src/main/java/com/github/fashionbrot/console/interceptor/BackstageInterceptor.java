@@ -8,6 +8,7 @@ import com.github.fashionbrot.common.util.CookieUtil;
 import com.github.fashionbrot.common.vo.RespVo;
 import com.github.fashionbrot.core.service.SysMenuService;
 import com.github.fashionbrot.core.service.SysUserService;
+import com.github.fashionbrot.core.service.UserLoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,7 +31,7 @@ public class BackstageInterceptor implements HandlerInterceptor {
 
 
     @Autowired
-    private SysUserService sysUserService;
+    private UserLoginService userLoginService;
 
     @Autowired
     private SysMenuService sysMenuService;
@@ -41,7 +42,7 @@ public class BackstageInterceptor implements HandlerInterceptor {
             log.debug("request url:{}",request.getRequestURI());
         }
 
-        LoginModel model = sysUserService.getSafeLogin();
+        LoginModel model = userLoginService.getSafeLogin();
         if (model == null) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             if (!handlerMethod.hasMethodAnnotation(ResponseBody.class)){

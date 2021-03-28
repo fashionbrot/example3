@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 菜单表
@@ -19,7 +20,6 @@ import java.util.Date;
  */
 @ApiModel(value = "菜单表")
 @Data
-@EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -111,6 +111,12 @@ public class SysMenuEntity implements Serializable {
 	@TableField(value = "del_flag",fill = FieldFill.INSERT)
 	private Integer delFlag;
 
+	@TableField(exist = false)
+	private List ChildMenu;
 
-
+	/**
+	 * 父级 菜单名称
+	 */
+	@TableField(exist = false)
+	private  String parentMenuName;
 }

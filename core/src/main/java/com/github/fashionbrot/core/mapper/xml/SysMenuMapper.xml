@@ -45,6 +45,14 @@
         id,menu_name,menu_level,menu_url,parent_menu_id,priority,code,target,visible,is_refresh,icon,create_id,create_date,update_id,update_date,del_flag
     </sql>
 
+
+    <select id="loadRoleMenu" parameterType="java.lang.Long" resultMap="sysMenuMap">
+        SELECT e.id,e.menu_name,e.menu_level,e.menu_url,e.parent_menu_id,e.priority,e.code
+        FROM  sys_menu e
+        INNER JOIN sys_menu_role_relation d on d.menu_id=e.id
+        WHERE d.role_id=#{roleId} and e.del_flag=0
+        ORDER BY e.priority ASC
+    </select>
     
 
 </mapper>

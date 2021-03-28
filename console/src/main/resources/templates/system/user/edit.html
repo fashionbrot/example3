@@ -65,7 +65,7 @@
 	<th:block th:include="include :: footer" />
 	<th:block th:include="include :: select2-js" />
 	<script type="text/javascript">
-        var prefix = ctx + "system/user";
+        var prefix = ctx + "sys/user";
         var roleId = [[${info.roleId}]];
         loadRole("roleId",roleId);
 
@@ -122,7 +122,7 @@
 	        	console.log(JSON.stringify(data));
 	        	var status = $("input[id='status']").is(':checked') == false ? 0 : 1;
 	        	data.status = status;
-	        	$.operate.save(prefix + "/update", data,null,true);
+	        	$.operate.save(prefix + "/updateById", data,null,true);
 	        }
 	    }
     </script>

@@ -1,19 +1,28 @@
 package com.github.fashionbrot.console.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.github.fashionbrot.common.model.LoginModel;
+import com.github.fashionbrot.core.service.SysUserService;
+import com.github.fashionbrot.core.service.UserLoginService;
+import com.github.fashionbrot.core.service.impl.SysUserServiceImpl;
 import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 @Component
-public class FieldMetaObjectHandler implements MetaObjectHandler {
+public class FieldMetaObjectHandler implements MetaObjectHandler, BeanFactoryAware {
 
     private final static String CREATE_ID = "createId";
     private final static String CREATE_DATE = "createDate";
     private final static String UPDATE_ID = "updateId";
     private final static String UPDATE_DATE = "updateDate";
     private final static String DEL_FLAG = "delFlag"; //删除标志位 1删除 0未删除
+
 
 
 
@@ -59,7 +68,17 @@ public class FieldMetaObjectHandler implements MetaObjectHandler {
     }
 
     private Long getUserId(){
+        LoginModel safeLogin = userLoginService.getSafeLogin();
+        if (safeLogin!=null){
+            return safeLogin.getUserId();
+        }
         return 0L;
     }
 
+    UserLoginService userLoginService;
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        userLoginService = beanFactory.getBean(UserLoginService.class);
+    }
 }

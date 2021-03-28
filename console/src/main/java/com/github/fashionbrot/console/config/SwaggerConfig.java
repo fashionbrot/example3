@@ -24,7 +24,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 @Profile({"dev"}) //@Profile({"dev","{pro}"}) 这样写就是两个环境都显示-----设置要显示的工作环境（控制那个环境显示接口文档）
-public class SwaggerConfig extends WebMvcConfigurationSupport {
+public class SwaggerConfig  {
 
     @Bean
     public Docket productApi() {
@@ -53,10 +53,5 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
         .version("0.0.1")
         .build();
     }
-    //配置放行资源
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
+
 }

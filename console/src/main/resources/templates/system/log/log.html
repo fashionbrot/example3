@@ -59,7 +59,7 @@
 	var editFlag ;
 	var removeFlag ;
 	var  detailFlag;
-	var prefix = ctx + "system/log";
+	var prefix = ctx + "sys/log";
 	layui.use('laydate', function() {
 		var laydate = layui.laydate;
 		laydate.render({
@@ -88,7 +88,6 @@
 			modalName: "角色",
 			sortName: "createDate",
 			sortOrder: "desc",
-			method:"get",
 			queryParams: queryParams,
 			columns: [
 				{

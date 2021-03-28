@@ -55,8 +55,8 @@ function radioChecked(name,value,checked) {
 
 
 function loadRole(id,selectId) {
-    var prefix = ctx + "system/user";
-    $.operate.post2(prefix + "/queryRoleAll",null,function (data) {
+    var prefix = ctx + "sys/role";
+    $.operate.get2(prefix + "/queryList",function (data) {
         if (data.code==0){
             var rows=data.data;
             var html="<option value=''>请选择</option>";
@@ -74,6 +74,7 @@ function loadRole(id,selectId) {
                 allowClear: false
             });
         }
+
     });
 }
 

@@ -19,7 +19,6 @@ import java.util.Date;
  */
 @ApiModel(value = "系统日志")
 @Data
-@EqualsAndHashCode(callSuper=false)
 @TableName("sys_log")
 @AllArgsConstructor
 @NoArgsConstructor

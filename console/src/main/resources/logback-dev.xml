@@ -25,6 +25,7 @@
 	</appender>
 
 	<logger name="org.springframework.boot.web.servlet.support.ErrorPageFilter" level="OFF" />
+	<logger name="springfox.documentation.spring" level="OFF" />
 
 
 		<root level="debug">

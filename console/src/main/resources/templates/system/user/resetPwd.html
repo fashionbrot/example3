@@ -105,7 +105,7 @@
             var chrtype = 3;
             var password = $("#newPassword").val();
             if ($.validate.form() && checkpwd(chrtype, password)) {
-                $.operate.save(ctx + "system/user/resetPwd", $('#form-user-resetPwd').serialize());
+                $.operate.save(ctx + "sys/user/resetPwd", $('#form-user-resetPwd').serialize());
             }
         }
     </script>

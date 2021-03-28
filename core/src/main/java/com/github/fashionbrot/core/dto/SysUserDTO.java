@@ -1,5 +1,6 @@
 package com.github.fashionbrot.core.dto;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -62,4 +63,6 @@ public class SysUserDTO implements Serializable {
 	@ApiModelProperty(value = "删除标志位 1删除 0未删除")
 	private Integer delFlag;
 
+	@ApiModelProperty(value = "角色id")
+	private Long roleId;
 }

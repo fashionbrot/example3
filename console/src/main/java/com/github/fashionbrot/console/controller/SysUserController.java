@@ -2,17 +2,24 @@ package com.github.fashionbrot.console.controller;
 
 
 import com.github.fashionbrot.common.annotation.MarsPermission;
+import com.github.fashionbrot.common.annotation.PersistentLog;
+import com.github.fashionbrot.common.model.LoginModel;
 import com.github.fashionbrot.common.req.SysUserReq;
+import com.github.fashionbrot.common.util.CookieUtil;
 import com.github.fashionbrot.common.vo.RespVo;
 import com.github.fashionbrot.core.entity.SysUserEntity;
 import com.github.fashionbrot.core.service.SysUserService;
+import com.github.fashionbrot.core.service.UserLoginService;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -23,35 +30,103 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2021-03-27
  */
 
-@MarsPermission(value="sys:user")
+@MarsPermission(value = "sys:user")
 @Controller
 @RequestMapping("sys/user")
-@Api(tags="系统用户表")
+@Api(tags = "系统用户表")
 @ApiSort(23371307)
-public class SysUserController extends BaseController<SysUserService, SysUserEntity>  {
-    /**
-    @Autowired
-    private SysUserService sysUserService;
-     */
+public class SysUserController {
 
-    /**
-     * 权限 注解 MarsPermission
-     * 默认接口以下
-     * 分页       sys/user/page        权限：sys:user:page
-     * 数据列表    sys/user/queryList   权限：sys:user:queryList
-     * 根据id查询  sys/user/selectById  权限：sys:user:selectById
-     * 新增       sys/user/insert      权限：sys:user:insert
-     * 修改       sys/user/updateById  权限：sys:user:updateById
-     * 根据id删除  sys/user/deleteById  权限：sys:user:deleteById
-     * 多个id删除  sys/user/deleteByIds 权限：sys:user:deleteByIds
-     */
+    @Autowired
+    private SysUserService service;
+
+    @Autowired
+    private UserLoginService userLoginService;
 
     @MarsPermission(":page")
     @ApiOperation("数据列表—分页")
-    @GetMapping("/page")
+    @PostMapping("/page")
     @ResponseBody
     public RespVo pageReq(SysUserReq req) {
         return RespVo.success(service.pageReq(req));
+    }
+
+
+    @GetMapping("index")
+    public String index() {
+        return "/system/user/user";
+    }
+
+    @GetMapping("/index/add")
+    public String indexAdd() {
+        return "/system/user/add";
+    }
+
+    @RequestMapping("/index/edit/")
+    public String edit(Long id, ModelMap modelMap) {
+        modelMap.put("info", service.getById(id));
+        return "system/user/edit";
+    }
+
+    @GetMapping("/profile/resetPwd")
+    public String test(ModelMap mmap) {
+        LoginModel loginModel = userLoginService.getLogin();
+        mmap.put("user", loginModel);
+        return "system/user/resetPwd" ;
+    }
+
+    @PersistentLog
+    @ApiOperation("登录")
+    @PostMapping("/doLogin")
+    @ResponseBody
+    public RespVo doLogin(SysUserReq req) {
+        return RespVo.success(service.doLogin(req));
+    }
+
+
+    @MarsPermission(":insert")
+    @ApiOperation("新增")
+    @PostMapping("/insert")
+    @ResponseBody
+    public RespVo add(@RequestBody SysUserEntity entity){
+        service.insert(entity);
+        return RespVo.success();
+    }
+
+
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        CookieUtil.deleteCookie(request, response);
+        return "login" ;
+    }
+
+
+    @PersistentLog
+    @RequestMapping("/resetPwd")
+    @ResponseBody
+    @MarsPermission("sys:user:resetPwd")
+    public RespVo resetPwd(String oldPassword, String newPassword) {
+        service.resetPwd(oldPassword, newPassword);
+        return RespVo.success();
+    }
+
+    @MarsPermission(":updateById")
+    @ApiOperation("修改")
+    @PostMapping("/updateById")
+    @ResponseBody
+    public RespVo updateById(@RequestBody SysUserEntity entity){
+        service.edit(entity);
+        return RespVo.success();
+    }
+
+
+    @MarsPermission(":deleteById")
+    @ApiOperation("根据id删除")
+    @PostMapping("/deleteById")
+    @ResponseBody
+    public RespVo deleteById(Long id){
+        service.removeById(id);
+        return RespVo.success();
     }
 
 }

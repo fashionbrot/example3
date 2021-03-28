@@ -576,7 +576,7 @@ var table = {
                 $.bttTable = $('#' + options.id).bootstrapTreeTable({
                     code: options.code,                                 // 用于设置父子关系
                     parentCode: options.parentCode,                     // 用于设置父子关系
-                    type: 'post',                                       // 请求方式（*）
+                    type: options.type,                                       // 请求方式（*）
                     url: options.url,                                   // 请求后台的URL（*）
                     data: options.data,                                 // 无url时用于渲染的数据
                     ajaxParams: options.ajaxParams,                     // 请求数据的ajax的data属性
@@ -628,6 +628,9 @@ var table = {
             // 当所有数据被加载时触发
             onLoadSuccess: function(data) {
             	if (typeof table.options.onLoadSuccess == "function") {
+            	    if (data.code){
+            	        data = data.data;
+                    }
                     table.options.onLoadSuccess(data);
             	}
             	$(".table [data-toggle='tooltip']").tooltip();
@@ -991,6 +994,9 @@ var table = {
             // get请求传输
             get: function(url, callback) {
             	$.operate.submit(url, "get", "json", "", callback);
+            },
+            get2: function(url, callback) {
+                $.operate.submit2(url, "get", "json", "", callback);
             },
             // 详细信息
             detail: function(id, width, height) {

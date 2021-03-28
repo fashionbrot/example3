@@ -11,8 +11,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -46,14 +50,25 @@ public class SysMenuController extends BaseController<SysMenuService, SysMenuEnt
      * 多个id删除  sys/menu/deleteByIds 权限：sys:menu:deleteByIds
      */
 
+    @GetMapping("index")
+    public String index(){
+        return "/system/menu/menu";
+    }
+
+
     @MarsPermission(":page")
     @ApiOperation("数据列表—分页")
-    @GetMapping("/page")
+    @PostMapping("/page")
     @ResponseBody
     public RespVo pageReq(SysMenuReq req) {
         return RespVo.success(service.pageReq(req));
     }
 
-
+    @ApiOperation("数据列表—分页")
+    @GetMapping("/queryListAll")
+    @ResponseBody
+    public List<SysMenuEntity> queryListAll() {
+        return service.queryListAll();
+    }
 
 }

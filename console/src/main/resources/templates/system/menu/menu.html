@@ -28,7 +28,7 @@
 		var editFlag ;
 		var removeFlag ;
 		var datas ;
-		var prefix = ctx + "system/menu";
+		var prefix = ctx + "sys/menu";
 
 		$(function() {
 		    var options = {
@@ -37,7 +37,8 @@
 		        uniqueId: "id",
 		        expandAll: false,
 		        expandFirst: false,
-		        url: prefix + "/queryAll",
+		        url: prefix + "/queryListAll",
+				type:"get",
 		        createUrl: prefix + "/index/add",
 		        updateUrl: prefix + "/index/edit?id={id}",
 		        removeUrl: prefix + "/deleteById",
