@@ -20,4 +20,5 @@ public interface SysMenuMapper extends BaseMapper<SysMenuEntity> {
     List<SysMenuEntity> loadRoleMenu(Long roleId);
 
 
+    List<SysMenuEntity> selectMenuRole(Long roleId);
 }

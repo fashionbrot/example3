@@ -2,6 +2,7 @@ package com.github.fashionbrot.console.controller;
 
 
 import com.github.fashionbrot.common.annotation.MarsPermission;
+import com.github.fashionbrot.common.annotation.PersistentLog;
 import com.github.fashionbrot.common.req.SysRoleReq;
 import com.github.fashionbrot.common.vo.RespVo;
 import com.github.fashionbrot.core.entity.SysRoleEntity;
@@ -10,10 +11,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -42,9 +40,21 @@ public class SysRoleController extends BaseController<SysRoleService, SysRoleEnt
      * 多个id删除  sys/role/deleteByIds 权限：sys:role:deleteByIds
      */
 
-    @GetMapping("index")
+
+    @MarsPermission("sys:role:index")
+    @GetMapping("/index")
     public String index(){
-        return "/system/role/role";
+        return "system/role/role";
+    }
+
+    @GetMapping("/index/add")
+    public String indexAdd(){
+        return "system/role/add";
+    }
+
+    @GetMapping("/index/edit")
+    public String indexEdit(){
+        return "system/role/edit";
     }
 
     @MarsPermission(":page")
@@ -56,5 +66,35 @@ public class SysRoleController extends BaseController<SysRoleService, SysRoleEnt
     }
 
 
+    @PersistentLog
+    @MarsPermission(":insert")
+    @ApiOperation("新增")
+    @PostMapping("/insert")
+    @ResponseBody
+    public RespVo add(@RequestBody SysRoleEntity entity){
+        service.add(entity);
+        return RespVo.success();
+    }
+
+
+    @PersistentLog
+    @MarsPermission(":updateById")
+    @ApiOperation("修改")
+    @PostMapping("/updateById")
+    @ResponseBody
+    public RespVo updateById(@RequestBody SysRoleEntity entity){
+        service.edit(entity);
+        return RespVo.success();
+    }
+
+    @PersistentLog
+    @MarsPermission(":deleteById")
+    @ApiOperation("根据id删除")
+    @PostMapping("/deleteById")
+    @ResponseBody
+    public RespVo deleteById(Long id){
+        service.deleteById(id);
+        return RespVo.success();
+    }
 
 }

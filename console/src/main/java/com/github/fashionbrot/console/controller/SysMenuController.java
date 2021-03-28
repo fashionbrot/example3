@@ -71,4 +71,10 @@ public class SysMenuController extends BaseController<SysMenuService, SysMenuEnt
         return service.queryListAll();
     }
 
+    @RequestMapping("loadAllMenu")
+    @ResponseBody
+    public List<SysMenuEntity> loadAllMenu(Long roleId, Integer isShowCode) {
+        return service.loadAllMenu(roleId, isShowCode);
+    }
+
 }

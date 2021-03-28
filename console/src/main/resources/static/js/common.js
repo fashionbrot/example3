@@ -79,8 +79,8 @@ function loadRole(id,selectId) {
 }
 
 function loadMenuLevel(id,selectId,level) {
-    var prefix = ctx + "system/menu";
-    $.operate.post2(prefix + "/queryMenuLevel",{"menuLevel":level},function (data) {
+    var prefix = ctx + "sys/menu";
+    $.operate.get2(prefix + "/queryListAll?menuLevel="+level,function (data) {
             var rows=data;
             var html="<option value=''>请选择</option>";
             for(var i=0;i<rows.length;i++){

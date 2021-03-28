@@ -14,4 +14,9 @@ public interface SysRoleService  extends BaseService<SysRoleEntity> {
 
     Object pageReq(SysRoleReq req);
 
+    void edit(SysRoleEntity entity);
+
+    void add(SysRoleEntity entity);
+
+    void deleteById(Long id);
 }

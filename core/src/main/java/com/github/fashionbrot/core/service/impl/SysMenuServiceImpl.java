@@ -166,4 +166,44 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenuEn
         }
         return "";
     }
+
+    @Override
+    public List<SysMenuEntity> loadAllMenu(Long roleId, Integer isShowCode) {
+        List<SysMenuEntity> checkedList = baseMapper.selectMenuRole(roleId);
+
+        Map<String, Boolean> checkedMap = new HashMap<>();
+        if (CollectionUtils.isNotEmpty(checkedList)) {
+            for (SysMenuEntity mm : checkedList) {
+                checkedMap.put(mm.getId().toString(), true);
+            }
+        }
+
+        List<SysMenuEntity> menuBarList = baseMapper.selectList(new QueryWrapper<SysMenuEntity>().orderByAsc("priority"));
+        if (CollectionUtils.isNotEmpty(menuBarList)) {
+            menuBarList = loadChildMenuNotStructure(menuBarList, checkedMap);
+        }
+
+
+        return menuBarList;
+    }
+
+    private List<SysMenuEntity> loadChildMenuNotStructure(List<SysMenuEntity> menuBarList, Map<String, Boolean> checkedMap) {
+        if (CollectionUtils.isNotEmpty(menuBarList)) {
+            List<SysMenuEntity> menuList = new ArrayList<>(15);
+            for (SysMenuEntity m : menuBarList) {
+
+                m.setOpen(true);
+                if (checkedMap.containsKey(m.getId().toString())) {
+                    m.setActive(1);
+                    m.setChecked(true);
+                }else{
+                    m.setChecked(false);
+                }
+                m.setName(m.getMenuName()+"&nbsp;"+m.getCode());
+                menuList.add(m);
+            }
+            return menuList;
+        }
+        return null;
+    }
 }

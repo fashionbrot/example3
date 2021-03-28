@@ -24,4 +24,6 @@ public interface SysMenuService extends BaseService<SysMenuEntity> {
     List<SysMenuEntity> loadRoleMenu(Long roleId, boolean superAdmin);
 
     List<SysMenuEntity> queryListAll();
+
+    List<SysMenuEntity> loadAllMenu(Long roleId, Integer isShowCode);
 }

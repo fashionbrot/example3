@@ -1,6 +1,7 @@
 package com.github.fashionbrot.console.controller;
 
 import com.github.fashionbrot.common.annotation.MarsPermission;
+import com.github.fashionbrot.common.annotation.PersistentLog;
 import com.github.fashionbrot.common.vo.RespVo;
 import com.github.fashionbrot.core.service.BaseService;
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +35,7 @@ public  class BaseController<S extends BaseService<T>, T > {
         return RespVo.success(data);
     }
 
+    @PersistentLog
     @MarsPermission(":insert")
     @ApiOperation("新增")
     @PostMapping("/insert")
@@ -44,6 +46,7 @@ public  class BaseController<S extends BaseService<T>, T > {
     }
 
 
+    @PersistentLog
     @MarsPermission(":updateById")
     @ApiOperation("修改")
     @PostMapping("/updateById")
@@ -54,6 +57,7 @@ public  class BaseController<S extends BaseService<T>, T > {
     }
 
 
+    @PersistentLog
     @MarsPermission(":deleteById")
     @ApiOperation("根据id删除")
     @PostMapping("/deleteById")
@@ -64,6 +68,7 @@ public  class BaseController<S extends BaseService<T>, T > {
     }
 
 
+    @PersistentLog
     @MarsPermission(":deleteByIds")
     @ApiOperation("批量删除")
     @PostMapping("/deleteByIds")

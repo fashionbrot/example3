@@ -53,6 +53,14 @@
         WHERE d.role_id=#{roleId} and e.del_flag=0
         ORDER BY e.priority ASC
     </select>
+    <select id="selectMenuRole" parameterType="java.lang.Long" resultMap="sysMenuMap">
+        SELECT a.id,a.parent_menu_id,a.menu_name,a.menu_level,a.priority,a.target,a.visible,a.is_refresh,a.icon,a.code,a.menu_url
+        FROM  sys_menu a
+        INNER JOIN  sys_menu_role_relation b on a.id=b.menu_id
+        WHERE  b.role_id=#{roleId}
+        ORDER BY a.priority ASC
+    </select>
+
     
 
 </mapper>
