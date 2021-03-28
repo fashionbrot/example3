@@ -44,7 +44,7 @@ public class IndexController {
         if ("top".equals(view) || "true".equals(environment.getProperty("menu.top"))){
             return "index-topnav";
         }
-        return "index-topnav";
+        return "index";
     }
 
     @GetMapping(value = {"/","/login"})
