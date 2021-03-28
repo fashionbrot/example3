@@ -10,11 +10,9 @@ import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,11 +48,21 @@ public class SysMenuController extends BaseController<SysMenuService, SysMenuEnt
      * 多个id删除  sys/menu/deleteByIds 权限：sys:menu:deleteByIds
      */
 
-    @GetMapping("index")
-    public String index(){
-        return "/system/menu/menu";
+    @MarsPermission("sys:menu:index")
+    @GetMapping("/index")
+    public String index() {
+        return "system/menu/menu" ;
     }
 
+    @GetMapping("/index/add")
+    public String indexAdd() {
+        return "system/menu/add" ;
+    }
+
+    @GetMapping("/index/edit")
+    public String indexEdit() {
+        return "system/menu/edit" ;
+    }
 
     @MarsPermission(":page")
     @ApiOperation("数据列表—分页")
@@ -64,10 +72,17 @@ public class SysMenuController extends BaseController<SysMenuService, SysMenuEnt
         return RespVo.success(service.pageReq(req));
     }
 
+
+
     @ApiOperation("数据列表—分页")
     @GetMapping("/queryListAll")
     @ResponseBody
-    public List<SysMenuEntity> queryListAll() {
+    public List<SysMenuEntity> queryListAll(Integer menuLevel) {
+        if(menuLevel!=null){
+            Map<String,Object> map =new HashMap<>();
+            map.put("menu_level",menuLevel);
+            return (List<SysMenuEntity>) service.listByMap(map);
+        }
         return service.queryListAll();
     }
 

@@ -96,8 +96,8 @@
 
 
 
-			var prefix = ctx + "system/menu";
-			var queryUrl = prefix +"/queryById";
+			var prefix = ctx + "sys/menu";
+			var queryUrl = prefix +"/selectById";
 			$("#formEdit").validate({
 				onkeyup: false,
 				rules:{
@@ -124,7 +124,7 @@
 
 			function submitHandler() {
 				if ($.validate.form()) {
-					$.operate.save(prefix + "/update", $('#formEdit').serializeJson(),null,true);
+					$.operate.save(prefix + "/updateById", $('#formEdit').serializeJson(),null,true);
 				}
 			}
 
@@ -153,8 +153,6 @@
 						var row = data.data;
 						if (row){
 							console.log(row)
-
-
 							$.each(row,function (k,v) {
 								if (k=='menuLevel'){
 									radioChecked("menuLevel",row.menuLevel,true)

@@ -10,6 +10,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,5 +62,12 @@ public class SysLogController extends BaseController<SysLogService, SysLogEntity
     }
 
 
+
+    @MarsPermission("sys:log:index:detail")
+    @GetMapping("/index/detail")
+    public String detail( Long id, ModelMap modelMap){
+        modelMap.put("operLog",service.getById(id));
+        return "system/log/detail";
+    }
 
 }
